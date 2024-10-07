@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quem é mais bonita</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaXNHlcziMswkW3HmIUm6Yeby2de-Lx5u_AQ&usqp=CAU');
+            background-size: cover; /* Ajusta o fundo para cobrir a tela */
+            transition: background-color 1s; /* Transição suave para a mudança de cor */
+        }
+        .images {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .image-container {
+            cursor: pointer;
+        }
+        img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+        #message {
+            font-size: 24px;
+            margin-top: 20px;
+            display: none; /* Inicialmente escondido */
+        }
+    </style>
+</head>
+<body>
+    <h1>Quem é mais bonita</h1>
+    <div class="images" id="options">
+        <div class="image-container" id="optionA" onclick="chooseImage('A')">
+            <img src="https://i.ibb.co/cr3bVSW/IMG-20240908-223225-428.webp" alt="Rynara">
+            <p>Rynara</p>
+        </div>
+        <div class="image-container" id="optionB" onclick="chooseImage('B')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMZFL5R8K8vSkQM5S_BQgSjHLe4eI_vynilA&usqp=CAU" alt="Bruna Marquezine">
+            <p>Bruna Marquezine</p>
+        </div>
+    </div>
+    <div id="message"></div>
+    <script>
+        // Variáveis para armazenar a opção correta
+        let correctOption = 'A'; // 'A' é Rynara, a opção correta
+
+        function chooseImage(option) {
+            if (option === correctOption) {
+                // Se a opção correta foi escolhida
+                document.getElementById("options").style.display = "none"; // Oculta as opções
+                showMessage("Você acertou!", "https://i.ibb.co/cr3bVSW/IMG-20240908-223225-428.webp");
+            } else {
+                // Se a opção incorreta foi escolhida, inverte as opções
+                invertOptions();
+            }
+        }
+
+        function invertOptions() {
+            const optionA = document.getElementById("optionA");
+            const optionB = document.getElementById("optionB");
+
+            // Troca as imagens
+            const temp = optionA.innerHTML;
+            optionA.innerHTML = optionB.innerHTML; // A imagem de B vai para A
+            optionB.innerHTML = temp; // A imagem de A vai para B
+
+            // Atualiza a opção correta de acordo com a inversão
+            correctOption = (correctOption === 'A') ? 'B' : 'A'; // Inverte a opção correta
+        }
+
+        function showMessage(text, imgSrc) {
+            const messageDiv = document.getElementById("message");
+            messageDiv.textContent = text;
+            messageDiv.style.display = "block"; // Mostra a mensagem
+
+            // Adiciona a imagem da opção correta
+            const img = document.createElement("img");
+            img.src = imgSrc;
+            img.style.width = "200px"; // Ajuste do tamanho da imagem
+            img.style.height = "200px"; // Ajuste do tamanho da imagem
+            messageDiv.appendChild(img); // Adiciona a imagem ao div da mensagem
+
+            // Aguardar 4 segundos, então mudar a tela para branca
+            setTimeout(() => {
+                document.body.style.backgroundColor = "white"; // Muda para fundo branco
+                setTimeout(restartGame, 3000); // Reinicia o jogo após 3 segundos
+            }, 4000); // Espera 4 segundos antes de mudar para o fundo branco
+        }
+
+        function restartGame() {
+            // Reinicia o jogo
+            document.body.style.backgroundColor = ""; // Reseta a cor de fundo
+            document.getElementById("message").style.display = "none"; // Esconde a mensagem
+            document.getElementById("options").style.display = "flex"; // Mostra novamente as opções
+            document.getElementById("message").innerHTML = ""; // Limpa o conteúdo da mensagem
+            correctOption = 'A'; // Reseta a opção correta para A (Rynara)
+        }
+    </script>
+</body>
+</html>
